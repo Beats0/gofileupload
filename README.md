@@ -4,24 +4,19 @@
 
 包括
 
- - 数据库mysql
- - token鉴权
+ - mysql, Gorm
+ - token
  - 单个，多个文件上传
  - 文件分类
- - 静态html模板渲染
- - api划分
+ - 模板渲染
+ - restful api
  - debug release配置切换
+ 
 
-```
-go mod init github.com/beats0/gofileupload
-```
+配置详见 [config](https://github.com/Beats0/gofileupload/tree/master/conf)
 
-goland 开启 `go modules`
 
-proxy 设置为
+### 项目参考
 
-```
-https://goproxy.cn
-```
+[go-dingtalk](https://github.com/selinplus/go-dingtalk)
 
-对依赖包sync
