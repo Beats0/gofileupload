@@ -12,5 +12,11 @@
 *.out
 
 .idea
+.vscode
 
 conf/app_release.ini
+doc/mq.md
+static
+
+# go build
+main

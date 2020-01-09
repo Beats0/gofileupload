@@ -39,15 +39,16 @@ func UserLogin(mail, pwd string) (*User, error) {
 }
 
 // 邮箱是否被注册
-func IsMailExist(mail string) bool {
-	var user User
-	if err := db.Table("user").Where("mail=?", mail).First(&user).Error; err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return false
-		}
-		return true
+func IsMailExist(mail string) (bool, error) {
+	var total int
+	err := db.Table("user").Where("mail=?", mail).Count(&total).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return false, err
 	}
-	return false
+	if total == 0 {
+		return false, nil
+	}
+	return true, nil
 }
 
 // 用户是否存在

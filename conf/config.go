@@ -1,6 +1,8 @@
 package conf
 
 import (
+	"flag"
+	"fmt"
 	"github.com/go-ini/ini"
 	"log"
 	"time"
@@ -8,11 +10,11 @@ import (
 )
 
 type App struct {
-	Name      string
-	Host      string
-	Url       string
-	JwtSecret string
-	PwdSalt   string
+	Name           string
+	Url            string
+	PwdSalt        string
+	JwtSecret      string
+	CheckSecretKey string
 }
 
 type Server struct {
@@ -20,6 +22,7 @@ type Server struct {
 	HttpPort     int
 	ReadTimeout  time.Duration
 	WriteTimeout time.Duration
+	MaxDiskSize  int
 }
 
 type Database struct {
@@ -39,7 +42,16 @@ var cfg *ini.File
 // Setup initialize the configuration instance
 func Setup() {
 	var err error
-	cfg, err = ini.Load("conf/app_debug.ini")
+	var iniConfig string
+	var mode = flag.String("mode", "", "")
+	flag.Parse()
+	if *mode == "release" {
+		iniConfig = "conf/app_release.ini"
+	} else {
+		iniConfig = "conf/app_debug.ini"
+	}
+	fmt.Println("Load config:", iniConfig)
+	cfg, err = ini.Load(iniConfig)
 	if err != nil {
 		log.Fatalf("setting.Setup, fail to parse 'conf/app_debug.ini': %v", err)
 	}
